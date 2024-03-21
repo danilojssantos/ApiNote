@@ -6,7 +6,7 @@ controle pode ter ate 5 função
 4 UPDATE - PUT para atualizar um registro
 5 DELETE - DELETE para remover  um registro
 */
-
+const { hash } = require("bcryptjs")
 const AppError = require("../utils/AppError")
 const sqliteConnection = require("../database/sqlite")
 class UsersController {
@@ -21,11 +21,13 @@ class UsersController {
         if(checkUserExists){
             throw new AppError("Este email já existe");
         }
-
+        //criptografando a senha -- passa 2 paramentros a senha o salt(nivel da cripto)
+        // precisa usar await para poder esperar gerar cripto para depois salvar 
+        const hashPassword = await hash(password, 8)
 
         await database.run(
             "INSERT INTO users (name, email,password) values (?,?,?)",
-            [name, email, password]
+            [name, email, hashPassword]
         );
         //caso nao exista o email return o staus 201 create
         return response.status(201).json()

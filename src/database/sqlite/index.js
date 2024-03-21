@@ -6,7 +6,7 @@ const sqlite = require("sqlite");
 
 //path resolve o endereço de acorda com Sistema Operacional 
 const path = require("path");
-//verifica se esxiste o arquivo se nao tiver ele cria por issp async
+//verifica se esxiste o arquivo se nao tiver ele cria por isso async
 async function sqliteConnection(){
     const database = await sqlite.open({
         //cria um arquivo na pasta database

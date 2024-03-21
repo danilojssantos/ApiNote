@@ -8,16 +8,21 @@ controle pode ter ate 5 função
 */
 
 const AppError = require("../utils/AppError")
+const sqliteConnection = require("../database/sqlite")
 class UsersController {
-    create(request, response){
+   async create(request, response){
         const {name, email, password} = request.body
+        //conecta no banco
+        const database = await sqliteConnection();
+        //consulta no banco e atribuir o resultado para uma const
+        const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)",[email])
 
-        if (!name) {
-            
-            throw new AppError("Ops o nome é obrigatorio")
+        //se o email existir no banco retorna uma mensagem
+        if(checkUserExists){
+            throw new AppError("Este email já existe");
         }
-
-        response.status(201).json({name, email, password});
+        //caso nao exista o email return o staus 201 create
+        return response.status(201).json()
     }
 }
 

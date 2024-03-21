@@ -21,6 +21,12 @@ class UsersController {
         if(checkUserExists){
             throw new AppError("Este email já existe");
         }
+
+
+        await database.run(
+            "INSERT INTO users (name, email,password) values (?,?,?)",
+            [name, email, password]
+        );
         //caso nao exista o email return o staus 201 create
         return response.status(201).json()
     }

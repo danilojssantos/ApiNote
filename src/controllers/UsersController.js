@@ -57,10 +57,11 @@ class UsersController {
         if(userWithUpdateEmail && userWithUpdateEmail.id != id ){
             throw new AppError("Este e-mail já está em uso")
         }
-
+        //paga user.name e recebe valor passado 
         user.name = name;
+        //paga user.email e recebe valor passado 
         user.email = email;
-
+        //faz update na tabela 
         await database.run(`
             UPDATE users SET
             name = ?,

@@ -33,15 +33,15 @@ class UsersController {
         return response.status(201).json()
     }
 
-    async upate(request, response){
+    async update(request, response){
         //destrutura 
         const { name, email } = request.body;
         //pega id passado na url passa como paramentro
-        const { id }= request.params;
+        const { id } = request.params;
         //conecta com o banco de dados
         const database = await sqliteConnection()
         //consulta a tabela user pelo id que vem paramentro
-        const user = await database.get("SELECT * FROM users WHERE id = (?)",[id])
+        const user = await database.get("SELECT * FROM users WHERE id = (?)",[id]);
         
         
         //valida se id passado esta no Banco
@@ -50,14 +50,27 @@ class UsersController {
         }
 
         //consulta para pegar o email e ver se mesmo que ja esta no BD
-        const userWithUpdateEmail = await database.get("SELECT * FROM users WHERE email = (?)", [email])
+        const userWithUpdateEmail = await database.get("SELECT * FROM users WHERE email = (?)", [email]);
 
         //valisa se email que esta sendo atulizado ja se encontra no banco
         //caso ja tenha apresenta o error
         if(userWithUpdateEmail && userWithUpdateEmail.id != id ){
             throw new AppError("Este e-mail já está em uso")
         }
-        
+
+        user.name = name;
+        user.email = email;
+
+        await database.run(`
+            UPDATE users SET
+            name = ?,
+            email = ?,
+            update_at = ?
+            WHERE id = ?`,
+            [user.name, user.email, new Date(), id]
+        );
+
+        return response.json()
 
     }
 }

@@ -11,7 +11,7 @@ APi
 
 </span>
 
-## Dependencias
+## Dependências
 
 **bcryptjs -> `"^2.4.3"`** 
 
@@ -20,3 +20,9 @@ APi
 **sqlite  -> `"^5.1.1"`** 
 
 **sqlite3 -> `"^5.1.7"`**
+
+## Dependências de Desenvolvimento
+
+**nodemon -> `"^3.1.0"`** 
+
+

@@ -58,9 +58,9 @@ class UsersController {
             throw new AppError("Este e-mail já está em uso")
         }
         //paga user.name e recebe valor passado 
-        user.name = name;
+        user.name = name ?? user.name; //se o usuario passou valor name entao atribiu se vim vazio mantem o que tem
         //paga user.email e recebe valor passado 
-        user.email = email;
+        user.email = email ?? user.email;//se o usuario passou valor email entao atribiu se vim vazio mantem o que tem
         //verificando o password
         if (password && !old_password) {
             throw new AppError("Você precisa informar a senha antiga para definir a nova senha")

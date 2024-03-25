@@ -25,4 +25,15 @@ APi
 
 **nodemon -> `"^3.1.0"`** 
 
+##  Knex
+### `iniciando` 
+```javascript
+ npx knex init
+```
+
+
+
+
+
+
 

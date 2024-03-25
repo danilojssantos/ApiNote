@@ -31,6 +31,11 @@ APi
  npx knex init
 ```
 
+### `Criando Tabela` 
+```javascript
+ npx knex migrate:make createNotes
+```
+
 
 
 

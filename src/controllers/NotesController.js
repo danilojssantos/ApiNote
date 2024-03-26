@@ -2,9 +2,11 @@ const knex = require("../database/knex")
 
 class NotesController{
     async create(request, response){
+        //destrutura oque vem da request (requesição)
         const{ title, description, tags, links} = request.body;
+        //pega o ifd que foi passado na url
         const {user_id} = request.params;
-
+        //faz o insert no banco e pega a mesmo tempo id da nota
         const note_id = await knex("notes").insert({
             title,
             description,

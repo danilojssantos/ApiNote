@@ -7,7 +7,7 @@ class NotesController{
         //pega o ifd que foi passado na url
         const {user_id} = request.params;
         //faz o insert no banco e pega a mesmo tempo id da nota
-        const note_id = await knex("notes").insert({
+        const [note_id] = await knex("notes").insert({
             title,
             description,
             user_id
@@ -42,8 +42,19 @@ class NotesController{
         const { id } = request.params;
         //selecionada a nota pengando baseado no id que vem request
         const note = await knex("notes").where({ id }).first();
+        // seleciona a tags banseado no id notes ordenando por name
+        const tags = await knex("tags").where({note_id: id}).orderBy("name");
 
-        return response.json(note);
+        const links = await knex("links").where({note_id: id}).orderBy("created_at");
+
+
+        return response.json({
+            ...note,
+            tags,
+            links
+
+
+        });
 
 
 

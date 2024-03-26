@@ -41,7 +41,7 @@ class NotesController{
         //recupera o id que vem atraves da request
         const { id } = request.params;
         //selecionada a nota pengando baseado no id que vem request
-        const node = await knex("notes").where({ id }).first();
+        const note = await knex("notes").where({ id }).first();
 
         return response.json(note);
 

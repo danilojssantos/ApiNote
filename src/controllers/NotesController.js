@@ -73,13 +73,27 @@ class NotesController{
 
     async index(request, response){
         // recebe o valor usuario por query
-        const { title, user_id } = request.query
-        //busca no todas a notes de unico usuario e ordena por titulo
-        const notes = await knex("notes")
-        .where({user_id})
-        .whereLike("title",`%${title}%`) //like busca palavra no bd , procentagem antes e depois 
-        .orderBy("title");
+        const { title, user_id , tags} = request.query
+       
+        let notes;
+        //se existe a tag faz um filtro
+        if (tags) {
+            //convert tags para arry tem como delimitador a (,) 
+            const filterTags = tags.split(',').map(tag=> tag.trim())
+            //console.log(filterTags)
+            //faz a pesquisa na tags
+            notes = await knex("tags")
+                .whereIn("name", filterTags)//whereIn compara o oque tem no vetor com que tem no banco
+        }else{ //se nao existir a tag faz a consulta 
+             //busca no todas a notes de unico usuario e ordena por titulo
+            notes = await knex("notes")
+            .where({user_id})
+            .whereLike("title",`%${title}%`) //like busca palavra no bd , procentagem antes e depois 
+            .orderBy("title");
+    
 
+        }
+       
         return response.json(notes);
 
     }

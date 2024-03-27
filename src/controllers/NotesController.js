@@ -73,10 +73,11 @@ class NotesController{
 
     async index(request, response){
         // recebe o valor usuario por query
-        const { user_id } = request.query
+        const { title, user_id } = request.query
         //busca no todas a notes de unico usuario e ordena por titulo
         const notes = await knex("notes")
         .where({user_id})
+        .whereLike("title",`%${title}%`) //like busca palavra no bd , procentagem antes e depois 
         .orderBy("title");
 
         return response.json(notes);

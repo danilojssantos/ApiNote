@@ -1,7 +1,7 @@
 //reuni todas as rotas 
 
 const {Router} = require("express")
-const  usersRoutes = require("./user.routes")
+const  usersRoutes = require("./users.routes")
 const notesRoutes = require("./notes.routes")
 
 const routes = Router();

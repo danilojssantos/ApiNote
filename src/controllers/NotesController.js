@@ -78,7 +78,7 @@ class NotesController{
         let notes;
         //se existe a tag faz um filtro
         if (tags) {
-            //convert tags para arry tem como delimitador a (,) 
+            //convert tags para array tem como delimitador a (,) 
             const filterTags = tags.split(',').map(tag=> tag.trim())
             //console.log(filterTags)
             //faz a pesquisa na tags
@@ -90,11 +90,24 @@ class NotesController{
             .where({user_id})
             .whereLike("title",`%${title}%`) //like busca palavra no bd , procentagem antes e depois 
             .orderBy("title");
-    
-
         }
+
+        const userTags = await knex("tags").where({user_id});
+
+        const notesWithTags = notes.map(note =>{
+            const noteTags = userTags.filter(tag => tag.note_id === note.id);
+
+            return {
+                ... note,
+                tags: noteTags
+            }
+
+        });
+
+
+        
        
-        return response.json(notes);
+        return response.json(notesWithTags);
 
     }
 }
